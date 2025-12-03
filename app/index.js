@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-let indexRouter = require("./routers/indexRouter");
+let indexRouter = require("../routers/indexRouter");
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
