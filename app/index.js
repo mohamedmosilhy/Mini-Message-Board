@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+
 let indexRouter = require("./routers/indexRouter");
 
 app.use(express.static("public"));
@@ -11,4 +11,5 @@ app.set("views", "./views");
 
 app.use("/", indexRouter);
 
-app.listen(port);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server running"));
