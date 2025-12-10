@@ -33,18 +33,18 @@
                     </div>
 
                     <div class="messages">
-                        <% messages.forEach((msg, index)=> { %>
+                        <% messages.forEach((msg)=> { %>
                             <div class="message-card">
                                 <div class="message-header">
                                     <div class="avatar">
-                                        <%= msg.user.charAt(0).toUpperCase() %>
+                                        <%= msg.username.charAt(0).toUpperCase() %>
                                     </div>
                                     <div class="user-info">
                                         <h3 class="username">
-                                            <%= msg.user %>
+                                            <%= msg.username %>
                                         </h3>
                                         <time class="timestamp">
-                                            <%= new Date(msg.added).toLocaleDateString('en-US', { month: 'short' ,
+                                            <%= new Date(msg.created_at).toLocaleDateString('en-US', { month: 'short' ,
                                                 day: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit'
                                                 }) %>
                                         </time>
@@ -56,7 +56,7 @@
                                     </p>
                                 </div>
                                 <div class="message-footer">
-                                    <a href="/messages/<%= index %>" class="btn-open">
+                                    <a href="/messages/<%= msg.id %>" class="btn-open">
                                         <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2">
                                             <path d="M9 18l6-6-6-6"></path>

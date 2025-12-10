@@ -1,37 +1,8 @@
-const messages = [
-  {
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date(),
-  },
-  {
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date(),
-  },
-  {
-    text: "How's everyone doing?",
-    user: "Sara",
-    added: new Date(),
-  },
-  {
-    text: "Just finished a Node.js project!",
-    user: "Mohamed",
-    added: new Date(),
-  },
-  {
-    text: "Learning Express is fun!",
-    user: "Lina",
-    added: new Date(),
-  },
-  {
-    text: "Anyone up for a quick code review?",
-    user: "David",
-    added: new Date(),
-  },
-];
+const db = require("../db/queries");
 
-const homeController = (req, res) => {
+const homeController = async (req, res) => {
+  const messages = await db.getMessages();
+  console.log(messages);
   res.render("index", { title: "Mini Message Board", messages });
 };
 
@@ -39,25 +10,28 @@ const newController = {
   get: (req, res) => {
     res.render("form", { title: "New Message" });
   },
-  post: (req, res) => {
-    const messageText = req.body.message;
-    const messageUser = req.body.author;
-    messages.push({ text: messageText, user: messageUser, added: new Date() });
+  post: async (req, res) => {
+    const messageText = req.body.message?.trim();
+    const messageUser = req.body.author?.trim();
+
+    if (!messageText || !messageUser)
+      return res.status(400).send("Invalid input");
+
+    await db.addMessage(messageText, messageUser);
     res.redirect("/");
   },
 };
 
-const getMessageById = (req, res) => {
-  const messageId = parseInt(req.params.id, 10);
-  if (messageId >= 0 && messageId < messages.length) {
-    const message = messages[messageId];
-    res.render("message", { title: `Message from ${message.user}`, message });
-  } else {
-    res.status(404).send("Message not found");
-  }
+const getMessageById = async (req, res) => {
+  const id = Number(req.params.id);
+  const message = await db.getMessageById(id);
+
+  if (!message) return res.status(404).send("Message not found");
+
+  res.render("message", {
+    title: `Message from ${message.username}`,
+    message,
+  });
 };
-module.exports = {
-  homeController,
-  newController,
-  getMessageById,
-};
+
+module.exports = { homeController, newController, getMessageById };

@@ -30,14 +30,14 @@
                         <div class="message-detail-card">
                             <div class="message-detail-header">
                                 <div class="avatar-large">
-                                    <%= message.user.charAt(0).toUpperCase() %>
+                                    <%= message.username.charAt(0).toUpperCase() %>
                                 </div>
                                 <div class="user-detail">
                                     <h2>
-                                        <%= message.user %>
+                                        <%= message.username %>
                                     </h2>
                                     <time class="timestamp-large">
-                                        <%= new Date(message.added).toLocaleDateString('en-US', { weekday: 'long' ,
+                                        <%= new Date(message.created_at).toLocaleDateString('en-US', { weekday: 'long' ,
                                             month: 'long' , day: 'numeric' , year: 'numeric' , hour: '2-digit' ,
                                             minute: '2-digit' }) %>
                                     </time>
