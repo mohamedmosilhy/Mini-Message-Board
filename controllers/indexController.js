@@ -1,8 +1,8 @@
 const db = require("../db/queries");
+const { body, validationResult } = require("express-validator");
 
 const homeController = async (req, res) => {
   const messages = await db.getMessages();
-  console.log(messages);
   res.render("index", { title: "Mini Message Board", messages });
 };
 
@@ -11,11 +11,16 @@ const newController = {
     res.render("form", { title: "New Message" });
   },
   post: async (req, res) => {
-    const messageText = req.body.message?.trim();
-    const messageUser = req.body.author?.trim();
-
-    if (!messageText || !messageUser)
-      return res.status(400).send("Invalid input");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("form", {
+        title: "New Message",
+        errors: errors.array(),
+        data: req.body,
+      });
+    }
+    const messageText = req.body.message;
+    const messageUser = req.body.author;
 
     await db.addMessage(messageText, messageUser);
     res.redirect("/");

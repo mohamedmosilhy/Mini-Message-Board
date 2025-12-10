@@ -482,3 +482,10 @@ footer {
     font-size: 2rem;
   }
 }
+
+.form-errors {
+  background-color: #ffdddd;
+  border-left: 6px solid #f44336;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+}
