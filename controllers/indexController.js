@@ -1,5 +1,5 @@
 const db = require("../db/queries");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 
 const homeController = async (req, res) => {
   const messages = await db.getMessages();
@@ -8,7 +8,11 @@ const homeController = async (req, res) => {
 
 const newController = {
   get: (req, res) => {
-    res.render("form", { title: "New Message" });
+    res.render("form", {
+      title: "New Message",
+      errors: [],
+      data: { author: "", message: "" },
+    });
   },
   post: async (req, res) => {
     const errors = validationResult(req);
